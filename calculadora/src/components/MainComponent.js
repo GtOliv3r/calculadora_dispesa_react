@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Formulario from './formulario';
-import Lista from './lista';
-
 
 const MainComponent = () => {
   const [despesas, setDespesas] = useState([]);
@@ -16,10 +14,6 @@ const MainComponent = () => {
     setReceitas(receitasArmazenadas);
   }, []);
 
-  const calcularTotal = (lista) => {
-    return lista.reduce((total, dado) => total + parseFloat(dado.valor), 0).toFixed(2);
-  };
-
   const handleFormSubmit = (novoDado) => {
     if (novoDado.tipo === 'despesa') {
       setDespesas([...despesas, novoDado]);
@@ -27,17 +21,58 @@ const MainComponent = () => {
       setReceitas([...receitas, novoDado]);
     }
 
-    localStorage.setItem(
-      'dados',
-      JSON.stringify([...despesas, ...receitas, novoDado])
-    );
+    const dadosAtualizados = [...despesas, ...receitas, novoDado];
+    localStorage.setItem('dados', JSON.stringify(dadosAtualizados));
+  };
+
+  const handleExcluir = (index, tipo) => {
+    let novaLista = [];
+
+    if (tipo === 'despesa') {
+      const novaListaDespesas = [...despesas];
+      novaListaDespesas.splice(index, 1);
+      novaLista = novaListaDespesas;
+      setDespesas(novaListaDespesas);
+    } else if (tipo === 'receita') {
+      const novaListaReceitas = [...receitas];
+      novaListaReceitas.splice(index, 1);
+      novaLista = novaListaReceitas;
+      setReceitas(novaListaReceitas);
+    }
+
+    // Atualize o Local Storage
+    localStorage.setItem('dados', JSON.stringify([...novaLista]));
+  };
+
+  const calcularTotal = (lista) => {
+    return lista.reduce((total, item) => total + parseFloat(item.valor), 0);
   };
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <Formulario onFormSubmit={handleFormSubmit} />
-      <Lista title="Receitas" items={receitas} calcularTotal={calcularTotal} />
-      <Lista title="Despesas" items={despesas} calcularTotal={calcularTotal} />
+      <div style={{ flex: 1 }}>
+        <h2>Receitas - Total: R${calcularTotal(receitas)}</h2>
+        {receitas.map((dado, index) => (
+          <div key={index} style={{ border: '1px solid #ccc', padding: '10px', margin: '10px' }}>
+            <p>Nome: {dado.nome}</p>
+            <p>Valor: R${dado.valor}</p>
+            <p>Pago por: {dado.pagoPor}</p>
+            <button onClick={() => handleExcluir(index, 'receita')}>Excluir</button>
+          </div>
+        ))}
+      </div>
+      <div style={{ flex: 1 }}>
+        <h2>Despesas - Total: R${calcularTotal(despesas)}</h2>
+        {despesas.map((dado, index) => (
+          <div key={index} style={{ border: '1px solid #ccc', padding: '10px', margin: '10px' }}>
+            <p>Nome: {dado.nome}</p>
+            <p>Valor: R${dado.valor}</p>
+            <p>Pago por: {dado.pagoPor}</p>
+            <button onClick={() => handleExcluir(index, 'despesa')}>Excluir</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
