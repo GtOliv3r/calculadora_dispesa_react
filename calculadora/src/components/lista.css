@@ -1,0 +1,25 @@
+
+.ListaContainer {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .ListaTitulo {
+    background-color: #000; /* Preto */
+    color: #ffffff; /* Branco */
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  
+  .ListaCard {
+    background-color: #4caf50; /* Verde */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #ffffff; /* Branco */
+  }
+  

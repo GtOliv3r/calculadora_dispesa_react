@@ -1,4 +1,6 @@
+// Formulario.js
 import React, { useState } from 'react';
+import './formulario.css'; // Importe o arquivo CSS
 
 const Formulario = ({ onFormSubmit }) => {
   const [nome, setNome] = useState('');
@@ -9,9 +11,8 @@ const Formulario = ({ onFormSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (typeof onFormSubmit === 'function') {
-        // Chame onFormSubmit como uma função
-        onFormSubmit({ nome, valor, tipo, pagoPor });
-      }
+      onFormSubmit({ nome, valor, tipo, pagoPor });
+    }
     setNome('');
     setValor('');
     setTipo('despesa');
@@ -19,35 +20,47 @@ const Formulario = ({ onFormSubmit }) => {
   };
 
   return (
-    <div style={{ flex: 1, marginRight: '20px' }}>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="FormularioContainer">
+      <form className="FormularioForm" onSubmit={handleSubmit}>
+        <label className="FormularioLabel">
           Nome:
-          <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
+          <input
+            className="FormularioInput"
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
         </label>
-        <br />
-        <label>
+        <label className="FormularioLabel">
           Valor:
-          <input type="number" value={valor} onChange={(e) => setValor(e.target.value)} />
+          <input
+            className="FormularioInput"
+            type="number"
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
+          />
         </label>
-        <br />
-        <label>
+        <label className="FormularioLabel">
           Tipo:
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+          <select className="FormularioSelect" value={tipo} onChange={(e) => setTipo(e.target.value)}>
             <option value="despesa">Despesa</option>
             <option value="receita">Receita</option>
           </select>
         </label>
-        <br />
-        <label>
+        <label className="FormularioLabel">
           Pago por:
-          <select value={pagoPor} onChange={(e) => setPagoPor(e.target.value)}>
+          <select
+            className="FormularioSelect"
+            value={pagoPor}
+            onChange={(e) => setPagoPor(e.target.value)}
+          >
             <option value="gustavo">Gustavo</option>
             <option value="misael">Misael</option>
           </select>
         </label>
-        <br />
-        <button type="submit">Enviar</button>
+        <button className="FormularioButton" type="submit">
+          Enviar
+        </button>
       </form>
     </div>
   );

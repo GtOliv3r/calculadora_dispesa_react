@@ -1,8 +1,11 @@
+// Item.js
+
 import React from 'react';
+import './Item.css';
 
 const Item = ({ dado }) => {
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px' }}>
+    <div className="ItemContainer">
       <p>Nome: {dado.nome}</p>
       <p>Valor: R${dado.valor}</p>
       <p>Pago por: {dado.pagoPor}</p>
